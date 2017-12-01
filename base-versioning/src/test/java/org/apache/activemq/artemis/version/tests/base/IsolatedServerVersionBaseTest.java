@@ -19,8 +19,10 @@ package org.apache.activemq.artemis.version.tests.base;
 
 import java.io.File;
 
+import org.apache.activemq.artemis.version.base.ClientContainer;
 import org.apache.activemq.artemis.version.base.ClientServerExchange;
 import org.apache.activemq.artemis.version.base.ServerContainer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
@@ -32,6 +34,31 @@ public abstract class IsolatedServerVersionBaseTest {
 
    @Rule
    public final TemporaryFolder temporaryFolder;
+
+
+   protected String queueName = "test.hq.queue";
+
+   protected ServerContainer serverContainer;
+
+   protected ClientContainer clientContainer;
+
+
+   @After
+   public void tearDown() throws Exception {
+      clientContainer.close();
+      serverContainer.stop();
+   }
+
+
+   @Before
+   public void setUp() throws Exception {
+      exchange = newExchange();
+
+      this.serverContainer = startServer("0", new String[]{queueName}, new String[0]);
+
+      clientContainer = exchange.newClient();
+   }
+
 
    protected ClassLoader serverClassLoader;
    protected Class serverClass;
@@ -45,10 +72,6 @@ public abstract class IsolatedServerVersionBaseTest {
 
    protected abstract ClientServerExchange newExchange() throws Exception;
 
-   @Before
-   public void setUp() throws Exception {
-      exchange = newExchange();
-   }
 
    protected ServerContainer startServer(String serverID, String[] queues, String[] topics) throws Exception {
       ServerContainer container = exchange.newServerContainer();

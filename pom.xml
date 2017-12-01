@@ -37,6 +37,7 @@ under the License.
    
    <properties>
       <artemis-version>2.5.0-SNAPSHOT</artemis-version>
+      <qpid.jms.version>0.27.0</qpid.jms.version>
    </properties>
 
    <repositories>
@@ -88,6 +89,7 @@ under the License.
                   <createChecksum>true</createChecksum>
                </configuration>
             </plugin>
+
          </plugins>
       </pluginManagement>
    </build>

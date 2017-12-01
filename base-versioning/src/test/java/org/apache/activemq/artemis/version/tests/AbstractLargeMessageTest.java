@@ -38,11 +38,6 @@ import org.junit.Test;
 public abstract class AbstractLargeMessageTest extends IsolatedServerVersionBaseTest {
 
    public static final int LARGE_MESSAGE_SIZE = 10 * 1024;
-   ServerContainer serverContainer;
-
-   ClientContainer clientContainer;
-
-   String queueName = "test.hq.queue";
 
    @Before
    @Override

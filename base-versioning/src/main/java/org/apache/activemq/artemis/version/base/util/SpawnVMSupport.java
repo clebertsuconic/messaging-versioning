@@ -107,7 +107,9 @@ public final class SpawnVMSupport {
       ProcessLogger errorLogger = new ProcessLogger(logErrorOutput, process.getErrorStream(), logName + "_err");
       errorLogger.start();
 
-      latch.await(60, TimeUnit.SECONDS);
+      if (lookupWord != null) {
+         latch.await(60, TimeUnit.SECONDS);
+      }
 
       return process;
    }
@@ -148,6 +150,8 @@ public final class SpawnVMSupport {
             while ((line = br.readLine()) != null) {
                if (print) {
                   System.out.println(className + ":" + line);
+               } else {
+                  System.out.println("not printing");
                }
                if (lookup != null && lookup.equals(line)) {
                   latch.countDown();

@@ -137,7 +137,11 @@
          <artifactId>base-versioning</artifactId>
          <version>${project.version}</version>
       </dependency>
-
+      <dependency>
+         <groupId>org.apache.qpid</groupId>
+         <artifactId>qpid-jms-client</artifactId>
+         <version>${qpid.jms.version}</version>
+      </dependency>
 
 
       <dependency>
@@ -148,6 +152,11 @@
       <dependency>
          <groupId>org.apache.activemq</groupId>
          <artifactId>artemis-hornetq-protocol</artifactId>
+         <version>${artemis-version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>artemis-amqp-protocol</artifactId>
          <version>${artemis-version}</version>
       </dependency>
 
@@ -187,6 +196,45 @@
             </executions>
          </plugin>
          <plugin>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>artemis-maven-plugin</artifactId>
+            <version>${artemis-version}</version>
+            <executions>
+               <execution>
+                  <id>dependency</id>
+                  <phase>compile</phase>
+                  <goals>
+                     <goal>dependency-scan</goal>
+                  </goals>
+                  <configuration>
+                     <libListWithDeps>
+                        <arg>org.apache.activemq:artemis-jms-client:2.4.0</arg>
+                     </libListWithDeps>
+                     <libList>
+                        <arg>org.redhat.messaging:artemis_server-hornetq_client:1-SNAPSHOT</arg>
+                     </libList>
+                     <variableName>lib240</variableName>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>dependency2</id>
+                  <phase>compile</phase>
+                  <goals>
+                     <goal>dependency-scan</goal>
+                  </goals>
+                  <configuration>
+                     <libListWithDeps>
+                        <arg>org.apache.activemq:artemis-jms-client:${artemis-version}</arg>
+                     </libListWithDeps>
+                     <libList>
+                        <arg>org.redhat.messaging:artemis_server-hornetq_client:1-SNAPSHOT</arg>
+                     </libList>
+                     <variableName>libSnapshot</variableName>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
             <executions>
@@ -206,6 +254,14 @@
                   <property>
                      <name>serverClassPath</name>
                      <value>${serverClassPath}</value>
+                  </property>
+                  <property>
+                     <name>libSnapshot</name>
+                     <value>${libSnapshot}</value>
+                  </property>
+                  <property>
+                     <name>lib240</name>
+                     <value>${lib240}</value>
                   </property>
                </systemProperties>
             </configuration>

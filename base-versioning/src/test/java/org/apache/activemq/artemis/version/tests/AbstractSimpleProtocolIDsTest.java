@@ -35,26 +35,10 @@ import org.junit.Test;
 
 public abstract class AbstractSimpleProtocolIDsTest extends IsolatedServerVersionBaseTest {
 
-   ServerContainer serverContainer;
-
-   ClientContainer clientContainer;
-
-   String queueName = "test.hq.queue";
-
    @Before
    public void setUp() throws Exception {
       super.setUp();
-
-      this.serverContainer = startServer("0", new String[]{queueName}, new String[0]);
-
-      clientContainer = exchange.newClient();
-   }
-
-   @After
-   public void tearDown() throws Exception {
-      clientContainer.close();
-      serverContainer.stop();
-   }
+  }
 
    @Test
    public void testMessagePropertiesAreTransformedBetweenCoreAndHQProtocols() throws Exception {
